@@ -1,4 +1,6 @@
 @import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
+
 
 .navbar {
   width: 100%;
@@ -22,6 +24,20 @@
       @include sm{
         display: none;
       }
+    }
+
+    .dropdown-menu{
+      position: absolute;
+      display: flex;
+      gap: 20px;
+      flex-direction: column;
+      background-color: white;
+      right: 20px;
+      top: 50px;
+      cursor: pointer;
+      padding: 20px;
+      color: $dark-color;
+      border-radius: 20px;
     }
 
     .notification {

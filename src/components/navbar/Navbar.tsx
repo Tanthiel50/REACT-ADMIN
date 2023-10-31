@@ -1,6 +1,36 @@
-import "./navbar.scss"
+import React, { useState, useEffect } from 'react';
+import { getAuth, signOut } from '@firebase/auth';
+import { getFirestore, doc, getDoc } from '@firebase/firestore';
+import "./navbar.scss";
 
-const Navbar =() => {
+const Navbar = () => {
+    const [userName, setUserName] = useState<string | null>(null);
+    const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    useEffect(() => {
+        const fetchUserName = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    setUserName(userDoc.data()?.name);
+                }
+            }
+        };
+
+        fetchUserName();
+    }, [auth, db]);
+
+    const handleSignOut = () => {
+        signOut(auth);
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    }
+
     return (
         <div className="navbar">
             <div className="logo">
@@ -8,21 +38,34 @@ const Navbar =() => {
                 <span>Cara</span>
             </div>
             <div className="icons">
-                <img src="/search.svg" alt="" className="icon"/>
-                <img src="/app.svg" alt="" className="icon"/>
-                <img src="/expand.svg" alt="" className="icon"/>
                 <div className="notification">
                     <img src="/notifications.svg" alt="" />
                     <span>1</span>
                 </div>
                 <div className="user">
-                    <img src="https://images.pexels.com/photos/11038549/pexels-photo-11038549.jpeg" alt="" />
-                    <span>Jane</span>
+                    <span>{userName || 'Loading...'}</span>
                 </div>
-                <img src="/settings.svg" alt="" className="icon"/>
+                <img 
+                    src={dropdownOpen ? "/close.svg" : "/settings.svg"} 
+                    alt="" 
+                    className="icon" 
+                    onClick={toggleDropdown}
+                />
+                {dropdownOpen && (
+                    <div className="dropdown-menu">
+                        <span 
+                            onClick={handleSignOut} 
+                        >
+                            Déconnexion
+                        </span>
+                        <span>
+                            Paramètres
+                        </span>
+                    </div>
+                )}
             </div>
         </div>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;

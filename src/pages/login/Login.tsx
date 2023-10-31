@@ -1,11 +1,24 @@
 // LoginPage.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
 
 function Login() {
+
+  const auth = getAuth();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            if (user) {
+                // Redirigez l'utilisateur vers la page d'accueil s'il est déjà connecté
+                navigate ('/')
+            }
+        });
+
+        return () => unsubscribe();
+    }, [auth]);
   // console.log('LoginPage success');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

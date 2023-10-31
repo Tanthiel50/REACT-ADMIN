@@ -22,25 +22,26 @@ import FirebaseConfig from "./services/firebase-init";
 import { initializeApp } from "firebase/app";
 import Registration from "./pages/registration/Registration";
 import PasswordRecover from "./pages/passwordRecover/PasswordRecover";
+import ProtectedRoute from "./components/privateRoute/PrivateRoute";
 
 
-function App(){
+function App() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   initializeApp(FirebaseConfig);
 
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsUserLoggedIn(!!user);
-    });
+      const auth = getAuth();
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setIsUserLoggedIn(!!user);
+      });
 
-    return () => unsubscribe();
+      return () => unsubscribe();
   }, []);
 
-  const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return isUserLoggedIn ? children : <Navigate to="/login" replace />;
-  };
+  // const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  //   return isUserLoggedIn ? children : <Navigate to="/login" replace />;
+  // };
 
   const Layout = () => {
     return (
@@ -59,52 +60,52 @@ function App(){
     );
   };
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <RequireAuth>
-          <Layout />
-        </RequireAuth>
-      ),
-      children: [
-        {
-          path:"/",
-          element:<Home />,
+    const router = createBrowserRouter([
+      {
+          path: "/",
+          element: (
+              <ProtectedRoute>
+                  <Layout />
+              </ProtectedRoute>
+          ),
+            children: [
+                {
+                    path:"/",
+                    element:<Home />,
+                },
+                {
+                    path:"/users",
+                    element:<Users />,
+                },
+                {
+                    path:"/products",
+                    element:<Products />,
+                },
+                {
+                    path:"/users/:id",
+                    element:<User />,
+                },
+                {
+                    path:"/products/:id",
+                    element:<Product />,
+                },
+            ],
         },
         {
-          path:"/users",
-          element:<Users />,
+            path: "/login",
+            element: <Login />,
         },
         {
-          path:"/products",
-          element:<Products />,
+            path: "/registration",
+            element: <Registration />,
         },
         {
-          path:"/users/:id",
-          element:<User />,
+            path: "/passwordrecover",
+            element: <PasswordRecover />,
         },
-        {
-          path:"/products/:id",
-          element:<Product />,
-        },
-      ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/registration",
-      element: <Registration />,
-    },
-    {
-      path: "/passwordrecover",
-      element: <PasswordRecover />,
-    },
-  ]);
+    ]);
 
-  return <RouterProvider router={router} />;
+    return <RouterProvider router={router} />;
 }
 
 export default App;
