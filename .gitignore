@@ -25,4 +25,4 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
-src/services/firebase.js
+src/services/firebase-init.ts
