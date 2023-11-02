@@ -26,3 +26,10 @@ yarn.lock
 *.sln
 *.sw?
 src/services/firebase-init.ts
+functions/.eslintrc.js
+functions/.gitignore
+functions/package-lock.json
+functions/package.json
+functions/tsconfig.dev.json
+functions/tsconfig.json
+functions/src/index.ts

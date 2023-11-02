@@ -18,7 +18,6 @@
     "@mui/material": "^5.14.15",
     "@mui/x-data-grid": "^6.16.3",
     "@tanstack/react-query": "^5.4.3",
-    "@types/firebase": "^3.2.1",
     "@types/node": "^20.8.9",
     "firebase": "^10.5.2",
     "react": "^18.2.0",
@@ -29,6 +28,7 @@
     "vite-plugin-react": "^4.0.1"
   },
   "devDependencies": {
+    "@types/firebase": "^3.2.1",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
