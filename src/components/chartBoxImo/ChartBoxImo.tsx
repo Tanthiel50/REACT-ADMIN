@@ -14,14 +14,15 @@ import { ref, DataSnapshot, query, orderByChild, get } from "firebase/database";
 import FirebaseConfig from '../../services/firebase-init';
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import "./chartBoxImo.scss";
 
 const firebaseApp = initializeApp(FirebaseConfig);
 const db = getDatabase(firebaseApp);
 const dbRef = ref(db, "/");
-const colorMap = {
-    "UNE MAISON": "#00c49f",     
-    "UN APPARTEMENT": "#ff8042"  
-  };
+const color = [
+    {name:"UNE MAISON", color: "#00c49f"},     
+    {name: "UN APPARTEMENT", color:"#ff8042"} ,
+]
 
   //Data we keep from type_de_bien
 async function getUniqueTypesDeBien(): Promise<string[]> {
@@ -64,7 +65,7 @@ const MonthlyAverageChart: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="stackedChart">
         <h1>Moyenne de bien vendu (2022)</h1>
         <AreaChart
         width={800}
@@ -86,17 +87,31 @@ const MonthlyAverageChart: React.FC = () => {
             Object.keys(chartData[0]).map(
             (key) =>
                 key !== "month" && (
+                    {color.map((item) => (
                     <Area
                     key={key}
                     type="monotone"
                     dataKey={key}
                     stackId="1"
                     fillOpacity={1}
-                    fill={colorMap[key]}
-                />
+                    
+                        fill={colorMap.color}
+                        />
+                        ))}
                 )
             )}
         </AreaChart>
+        <div className="options">
+                {colorMap.map(item => (
+                    <div className="option" key={item.name}>
+                        <div className="title">
+                            <div className="dot" style={{backgroundColor:item.color}}/>
+                            <span>{item.name}</span>
+                        </div>
+                        <span>{item.value}</span>
+                    </div>
+                ))}
+            </div>
     </div>
   );
 };
