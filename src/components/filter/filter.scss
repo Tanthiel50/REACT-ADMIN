@@ -1,0 +1,11 @@
+.filters{
+    display: flex;
+    padding-bottom: 20px;
+    justify-content: center;
+    gap: 10px;
+    .filter{
+        border-radius: 20px;
+        padding: 5px
+    }
+
+}
