@@ -17,7 +17,7 @@ export const menu = [
         listItems: [
             { 
             id: 1,
-            title: "Ménage",
+            title: "Menage",
             url: "/menage",
             icon: "user.svg",
         },
@@ -54,7 +54,7 @@ export const menu = [
             {
                 id: 3,
                 title: "Ecoles",
-                url: "/ecole",
+                url: "/ecoles",
                 icon: "form.svg",
             },
             {

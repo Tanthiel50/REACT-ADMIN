@@ -1,6 +1,4 @@
 import Home from "./pages/home/Home";
-import Users from "./pages/users/Users";
-import Products from "./pages/products/Products";
 import Navbar from "./components/navbar/Navbar";
 import Menu from "./components/menu/Menu";
 import {
@@ -11,25 +9,37 @@ import {
 import Footer from "./components/footer/Footer";
 import Login from "./pages/login/Login";
 import "./styles/global.scss";
-import User from "./pages/user/User";
-import Product from "./pages/product/Product";
+import Menage from "./pages/menage/Menage";
+import { FilterProvider }  from "./components/filter/FilterContent";
+import MoyenneAge from "./pages/moyenneage/Moyenneage";
+import CategoriesSocio from "./pages/categoriesocio/Categoriesocio";
+import Transports from "./pages/transports/Transports";
+import Services from "./pages/services/Services";
+import Ecoles from "./pages/ecoles/Ecoles";
+import Commerces from "./pages/commerces/Commerces";
+import Foncier from "./pages/foncier/Foncier";
+import Blog from "./pages/blog/Blog";
+import Contact from "./pages/contact/Contact";
+
 
 function App() {
 
   const Layout = () => {
     return (
-      <div className="main">
-        <Navbar/>
-        <div className="container">
-          <div className="menuContainer">
-            <Menu/>
+      <FilterProvider>
+        <div className="main">
+          <Navbar/>
+          <div className="container">
+            <div className="menuContainer">
+              <Menu/>
+            </div>
+            <div className="contentContainer">
+              <Outlet />
+            </div>
           </div>
-          <div className="contentContainer">
-            <Outlet />
-          </div>
+          <Footer/>
         </div>
-        <Footer/>
-      </div>
+      </FilterProvider>
     )
   }
 
@@ -43,21 +53,45 @@ function App() {
           element:<Home />,
         },
         {
-          path:"/users",
-          element:<Users />,
+          path:"/menage",
+          element:<Menage />,
         },
         {
-          path:"/products",
-          element:<Products />,
+          path:"/moyenneage",
+          element:<MoyenneAge />,
         },
         {
-          path:"/users/id:",
-          element:<User />,
+          path:"/categoriessocio",
+          element:<CategoriesSocio />,
         },
         {
-          path:"/products/:id",
-          element:<Product />,
-        }
+          path:"/transports",
+          element:<Transports />,
+        },
+        {
+          path:"/services",
+          element:<Services />,
+        },
+        {
+          path:"/ecoles",
+          element:<Ecoles />,
+        },
+        {
+          path:"/commerces",
+          element:<Commerces />,
+        },
+        {
+          path:"/foncier",
+          element:<Foncier />,
+        },
+        {
+          path:"/blog",
+          element:<Blog />,
+        },
+        {
+          path:"/contact",
+          element:<Contact />,
+        },
       ]
     },
     {
