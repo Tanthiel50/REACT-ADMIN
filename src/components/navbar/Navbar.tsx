@@ -1,8 +1,31 @@
+import React, { useState, useEffect } from 'react';
+import { getAuth, signOut } from '@firebase/auth';
+import { getFirestore, doc, getDoc } from '@firebase/firestore';
 import "./navbar.scss";
-import {useState} from "react";
 
-const Navbar =() => {
+const Navbar = () => {
+    const [userfirstName, setUserName] = useState<string | null>(null);
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    useEffect(() => {
+        const fetchUserName = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    setUserName(userDoc.data()?.firstName);
+                }
+            }
+        };
+
+        fetchUserName();
+    }, [auth, db]);
+
+    const handleSignOut = () => {
+        signOut(auth);
+    };
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -12,15 +35,15 @@ const Navbar =() => {
         <div className="navbar">
             <div className="logo">
                 <img src="logo.svg" alt="" />
-                <span>Immolead</span>
+                <span>Cara</span>
             </div>
             <div className="icons">
-                {/* <div className="notification">
+                <div className="notification">
                     <img src="/notifications.svg" alt="" />
                     <span>1</span>
-                </div> */}
+                </div>
                 <div className="user">
-                    <span>Username</span>
+                    <span style={{textTransform:'capitalize'}}>{userfirstName || 'Loading...'}</span>
                 </div>
                 <img 
                     src={dropdownOpen ? "/close.svg" : "/settings.svg"} 
@@ -30,13 +53,15 @@ const Navbar =() => {
                 />
                 {dropdownOpen && (
                     <div className="dropdown-menu">
-                        <span 
-                        >
+                        <span>
                             Paramètres
                         </span>
-                        <span>
-                            Deconnexion
+                        <span 
+                            onClick={handleSignOut} 
+                        >
+                            Déconnexion
                         </span>
+
                     </div>
                 )}
             </div>
@@ -44,4 +69,4 @@ const Navbar =() => {
     );
 }
 
-export default Navbar
+export default Navbar;

@@ -1,5 +1,4 @@
 import "./contact.scss";
-import Filter from "../../components/filter/Filter";
 
 const Contact = () => {
 

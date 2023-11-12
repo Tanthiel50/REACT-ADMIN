@@ -20,6 +20,8 @@ import Commerces from "./pages/commerces/Commerces";
 import Foncier from "./pages/foncier/Foncier";
 import Blog from "./pages/blog/Blog";
 import Contact from "./pages/contact/Contact";
+import Registration from "./pages/registration/Registration";
+import ProtectedRoute from "./components/privateRoute/PrivateRoute";
 
 
 function App() {
@@ -46,7 +48,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path:"/",
-      element:<Layout/>,
+      element:(
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
       children:[
         {
           path:"/",
@@ -97,6 +103,10 @@ function App() {
     {
       path:"/login",
       element:<Login />,
+    },
+    {
+      path:"/registration",
+      element:<Registration />,
     },
   ]);
 
