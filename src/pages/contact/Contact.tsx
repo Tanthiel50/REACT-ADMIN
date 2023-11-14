@@ -1,3 +1,4 @@
+import Forms from "../../components/forms/Forms";
 import "./contact.scss";
 
 const Contact = () => {
@@ -7,7 +8,7 @@ const Contact = () => {
     <div>
         <div className="contact">
             <div className="box box1">
-                Contact 1
+                <Forms/>
             </div>
             <div className="box box2">Contact 2</div>
         </div>
